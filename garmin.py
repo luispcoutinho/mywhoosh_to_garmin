@@ -13,8 +13,15 @@ email = os.getenv("GC_EMAIL")
 password = os.getenv("GC_PASSWORD")
 
 # File path to upload
-upload_file = r"C:\Users\marek\dev\sync_mywhoosh_garmin\activities\pcgGWc8eDFUWTLbQPF5SlZ2L4ycHJTTkQb6cqE2a.fit"
 
+folder_path = os.getenv("FOLDER_PATH")
+upload_files = [
+    os.path.join(folder_path, file)
+    for file in os.listdir(folder_path)
+    if file.endswith(".fit")
+]
+
+print(upload_files)
 # Step 1: Use selenium-driverless to handle login and save cookies
 driverless_options = driverless_webdriver.ChromeOptions()
 # driverless_options.add_argument("--headless=new")
@@ -119,7 +126,7 @@ def upload_with_playwright(cookie_file, upload_file):
 
 # Use the function
 try:
-    upload_with_playwright("garmin_cookies.json", upload_file)
+    upload_with_playwright("garmin_cookies.json", upload_files)
 except Exception as e:
     print(f"Error during upload: {e}")
 finally:
