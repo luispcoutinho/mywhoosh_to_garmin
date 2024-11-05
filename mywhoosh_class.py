@@ -21,7 +21,7 @@ class MyWhooshSession:
         self.browser = self.playwright.chromium.launch(headless=False)
         self.context = self.browser.new_context()
         self.page = self.context.new_page()
-        self.login_to_mywhoosh()
+        self.login()
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -35,7 +35,7 @@ class MyWhooshSession:
         if self.playwright:
             self.playwright.stop()
 
-    def login_to_mywhoosh(self):
+    def login(self):
         self.page.goto("https://event.mywhoosh.com/auth/login")
         self.page.fill("#email", self.email)
         self.page.fill("#password", self.password)
