@@ -13,19 +13,17 @@ email = os.getenv("GC_EMAIL")
 password = os.getenv("GC_PASSWORD")
 
 # File path to upload
-
 folder_path = os.getenv("FOLDER_PATH")
+# List of paths of all activities in .fit format
 upload_files = [
     os.path.join(folder_path, file)
     for file in os.listdir(folder_path)
     if file.endswith(".fit")
 ]
 
-print(upload_files)
 # Step 1: Use selenium-driverless to handle login and save cookies
 driverless_options = driverless_webdriver.ChromeOptions()
-# driverless_options.add_argument("--headless=new")
-# driverless_options.add_argument("--incognito")
+driverless_options.add_argument("--headless=new")
 
 # Log in using selenium-driverless and save cookies
 with driverless_webdriver.Chrome(options=driverless_options) as driverless:

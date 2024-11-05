@@ -8,8 +8,8 @@ load_dotenv()
 
 with sync_playwright() as p:
     # Get credentials
-    email = os.getenv("EMAIL")
-    password = os.getenv("PASSWORD")
+    email = os.getenv("MW_EMAIL")
+    password = os.getenv("MW_PASSWORD")
 
     # Initiate browser and page
     browser = p.chromium.launch(headless=False)  # headless=False
