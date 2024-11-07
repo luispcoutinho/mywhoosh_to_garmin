@@ -25,7 +25,6 @@ class MyWhooshSession:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        # Clean up Playwright resources
         if self.page:
             self.page.close()
         if self.context:
