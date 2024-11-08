@@ -3,6 +3,7 @@ from selenium_driverless.sync import webdriver as driverless_webdriver
 from selenium_driverless.types.by import By
 import json
 import os
+import csv
 from dotenv import load_dotenv
 
 
@@ -12,7 +13,7 @@ class GarminLoginSession:
         self.driver_options = None
         self.page = None
 
-        self.email = os.getenv("GC_EMAIL")
+        self.email = os.getenv("MW_EMAIL")
         self.password = os.getenv("GC_PASSWORD")
         self.activities_file = os.getenv("FOLDER_PATH")
 
@@ -74,8 +75,6 @@ class GarminActionSession:
         self.browser = None
         self.context = None
         self.page = None
-        self.email = os.getenv("GC_EMAIL")
-        self.password = os.getenv("GC_PASSWORD")
         self.file_path = os.getenv("FOLDER_PATH")
         self.download_path = os.path.join(self.file_path, "")
 
@@ -159,12 +158,13 @@ class GarminActionSession:
         # Wait for confirmation and any final processing
         self.page.wait_for_timeout(5000)
 
-
-with GarminLoginSession() as garmin_login:
-    print("run")
-
-with GarminActionSession() as garmin:
-    print("Garmin Session Success")
-    garmin.download_activities_list()
-    garmin.upload_activities()
-    activities = mywhoosh.
+    def get_activities_list(self):
+        activities_list = []
+        with open("activities/Activities.csv", mode="r") as file:
+            activities = csv.reader(file)
+            print(activities)
+            for row in activities:
+                date = row[1].split()[0]
+                time = row[6]
+                activities_list.append(f"{date}, {time}")
+        return activities_list

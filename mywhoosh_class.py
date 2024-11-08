@@ -51,7 +51,7 @@ class MyWhooshSession:
         self.page.screenshot(path="AcceptedCookies.png")
         print("Accepted Cookies!")
 
-    def get_list_of_activities(self):
+    def get_list_of_activities(self, activities_list):
         """
         Předělat tak, abych to neukládal do csv, ale rovnou když iteruju mezi řádkama aktivity, tak aby stahoval aktivitu,
         která bude splňovat podmínku, tedy stejná aktivita nebude v seznamu aktivit Garmin Connect
@@ -80,7 +80,24 @@ class MyWhooshSession:
         for row in rows:
             cells = row.query_selector_all("td")
             row_data = [cell.inner_text() for cell in cells]
-            data.append(row_data)
+            date = row_data[0].split("/")
+            date = f"{date[2]}-{date[1]}-{date[0]}"
+            time = row_data[7].split(".")
+            activity = f"{date}, {time[0]}"
+            data.append(activity)
+            print(activity)
+            if activity in activities_list:
+                print("True")
+            else:
+                print("False")
+                with self.page.expect_download() as download_info:
+                    download_button = row.query_selector("button.btnDownload")
+                    download_button.click()
+                download = download_info.value
+                download_path = r"C:\Users\marek\dev\sync_mywhoosh_garmin\activities"
+                download.save_as(f"{download_path}\\{download.suggested_filename}")
+                self.page.wait_for_timeout(2000)
+        # print(data)
 
         with open("whoosh_activities_list.csv", "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
