@@ -97,25 +97,6 @@ class MyWhooshSession:
                 download_path = r"C:\Users\marek\dev\sync_mywhoosh_garmin\activities"
                 download.save_as(f"{download_path}\\{download.suggested_filename}")
                 self.page.wait_for_timeout(2000)
-        # print(data)
-
-        with open("whoosh_activities_list.csv", "w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow(
-                [
-                    "DATE",
-                    "RIDE",
-                    "DIST",
-                    "ELEV",
-                    "W (avg)",
-                    "W/KG (avg)",
-                    "HEART (avg)",
-                    "TIME",
-                    "ANALYSIS",
-                    "DOWNLOAD",
-                ]
-            )
-            writer.writerows(data)
 
     def download_activities(self):
         """

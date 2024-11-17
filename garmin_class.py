@@ -118,7 +118,7 @@ class GarminActionSession:
         self.page.wait_for_timeout(2000)
         self.page.screenshot(path="PreExport.png")
         with self.page.expect_download() as download_info:
-            export_button = self.page.get_by_text("Export CSV")
+            export_button = self.page.locator(".export-btn")
             export_button.click()
         download = download_info.value
 
@@ -142,7 +142,8 @@ class GarminActionSession:
         print("File upload initiated")
         self.page.wait_for_timeout(4897)
         self.page.screenshot(path="upload-playwright.png")
-        import_button = self.page.locator('button[type="button"]:text("Import Data")')
+        import_button = self.page.locator('button[class*="btnPrimary"]').nth(0)
+        print("button found")
         try:
             import_button.wait_for(
                 state="visible", timeout=10000
@@ -160,7 +161,7 @@ class GarminActionSession:
 
     def get_activities_list(self):
         activities_list = []
-        with open("activities/Activities.csv", mode="r") as file:
+        with open("activities/Activities.csv", mode="r", encoding="utf-8") as file:
             activities = csv.reader(file)
             print(activities)
             for row in activities:
