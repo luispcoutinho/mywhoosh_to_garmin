@@ -32,16 +32,18 @@ class GarminLoginSession:
 
     def login(self):
         self.page = "https://connect.garmin.com/signin"
-        self.driver.get(self.page)
-        self.driver.sleep(5)
-        self.email_input = self.driver.find_element(By.ID, "email")
+        self.driver.get(self.page, wait_load=True, timeout=60)
+        self.driver.sleep(10)
+        self.email_input = self.driver.find_element(by=By.ID, value="email", timeout=60)
         self.email_input.send_keys(self.email)
         self.driver.sleep(2)
-        self.password_input = self.driver.find_element(By.ID, "password")
+        self.password_input = self.driver.find_element(
+            by=By.ID, value="password", timeout=60
+        )
         self.password_input.send_keys(self.password)
         self.driver.sleep(2)
         submit_button = self.driver.find_element(
-            By.XPATH, "//button[@data-testid='g__button']"
+            by=By.XPATH, value="//button[@data-testid='g__button']", timeout=60
         )
         self.driver.execute_script("arguments[0].click();", submit_button)
         self.driver.sleep(5)
@@ -51,7 +53,9 @@ class GarminLoginSession:
 
     def accept_cookies(self):
         self.driver.sleep(5)
-        cookies_accept_button = self.driver.find_element(By.ID, "truste-consent-button")
+        cookies_accept_button = self.driver.find_element(
+            by=By.ID, value="truste-consent-button", timeout=60
+        )
         cookies_accept_button.click()
 
     def save_cookies(self):
