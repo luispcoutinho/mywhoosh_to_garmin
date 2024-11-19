@@ -6,6 +6,7 @@ def sync():
     with GarminLoginSession() as garmin_login, GarminActionSession() as garmin:
         garmin.download_activities_list()
         garmin_activities = garmin.get_activities_list()
+
     with MyWhooshSession() as mywhoosh:
         print(garmin_activities)
 
@@ -14,11 +15,13 @@ def sync():
         else:
             print("No Activities to be synced")
             garmin.delete_cookies()
+            garmin.delete_files()
             return
 
     with GarminActionSession() as garmin:
         garmin.upload_activities()
         garmin.delete_cookies()
+        garmin.delete_files()
 
 
 if __name__ == "__main__":

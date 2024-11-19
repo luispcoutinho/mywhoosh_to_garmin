@@ -15,10 +15,11 @@ class MyWhooshSession:
         self.email = os.getenv("MW_EMAIL")
         self.password = os.getenv("MW_PASSWORD")
         self.download_path = os.getenv("FOLDER_PATH")
+        self.headless = os.getenv("HEADLESS") == "true"
 
     def __enter__(self):
         self.playwright = sync_playwright().start()
-        self.browser = self.playwright.chromium.launch(headless=False)
+        self.browser = self.playwright.chromium.launch(headless=self.headless)
         self.context = self.browser.new_context()
         self.page = self.context.new_page()
         self.login()

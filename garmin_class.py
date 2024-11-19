@@ -16,10 +16,11 @@ class GarminLoginSession:
         self.email = os.getenv("GC_EMAIL")
         self.password = os.getenv("GC_PASSWORD")
         self.activities_file = os.getenv("FOLDER_PATH")
+        self.headless = os.getenv("HEADLESS") == "true"
 
     def __enter__(self):
         self.driver_options = driverless_webdriver.ChromeOptions()
-        self.driver_options.headless = False
+        self.driver_options.headless = self.headless
         self.driver = driverless_webdriver.Chrome(options=self.driver_options)
         self.login()
         return self
@@ -73,10 +74,11 @@ class GarminActionSession:
         self.page = None
         self.file_path = os.getenv("FOLDER_PATH")
         self.download_path = os.path.join(self.file_path, "")
+        self.headless = os.getenv("HEADLESS") == "true"
 
     def __enter__(self):
         self.playwright = sync_playwright().start()
-        self.browser = self.playwright.chromium.launch(headless=False)
+        self.browser = self.playwright.chromium.launch(headless=self.headless)
         self.context = self.browser.new_context()
         self.page = self.context.new_page()
         self.load_cookies()
@@ -109,6 +111,13 @@ class GarminActionSession:
         cookies_file = "garmin_cookies.json"
         if cookies_file:
             os.remove("garmin_cookies.json")
+
+    def delete_files(self):
+        directory = self.file_path
+
+        for file in os.listdir(directory):
+            file_path = os.path.join(directory, file)
+            os.remove(file_path)
 
     def download_activities_list(self):
         url = "https://connect.garmin.com/modern/activities?activityType=cycling&activitySubType=virtual_ride"
