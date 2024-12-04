@@ -8,8 +8,6 @@ def sync():
         garmin_activities = garmin.get_activities_list()
 
     with MyWhooshSession() as mywhoosh:
-        print(garmin_activities)
-
         if mywhoosh.download_activities(activities_list=garmin_activities):
             print("Activities Downloaded")
         else:
