@@ -40,12 +40,15 @@ pip install -r requirements.txt
 ### Security Notice
 Your credentials are stored locally in the `.env` file on your machine only. These credentials are used solely for authentication with MyWhoosh and Garmin Connect websites. The script does not transmit, store, or log your credentials anywhere else. As this is a client-side application, the repository owner and contributors have no access to your personal login information. We recommend reviewing the source code for transparency about credential handling.
 
-
 ### Run the script
+
+#### Option 1: Command Line
 ```bash
 python main.py
 ```
 
+#### Option 2: Using Batch File (Windows)
+Simply double-click the `run_script.bat` file in the project folder to execute the script. 
 
 ## Prerequisites
 
