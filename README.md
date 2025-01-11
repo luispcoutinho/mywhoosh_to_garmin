@@ -1,6 +1,6 @@
-# MyWhoosh to Garmin Converter
+# MyWhoosh to Garmin Sync Activities
 
-A tool to convert MyWhoosh workout data to Garmin format.
+A script that automates synchronization of activites from MyWhoosh to Garmin Connect.
 
 ## Installation and Setup
 
@@ -32,6 +32,6 @@ A tool to convert MyWhoosh workout data to Garmin format.
 
 ## Prerequisites
 
-* Python 3.6 or higher
+* Python (I used Python 3.11.)
 * Git
 
