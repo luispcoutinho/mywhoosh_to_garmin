@@ -6,27 +6,27 @@ A script that automates synchronization of activites from MyWhoosh to Garmin Con
 
 ### Clone the repository
 ```bash
-`git clone https://github.com/mvace/mywhoosh_to_garmin.git`
+git clone https://github.com/mvace/mywhoosh_to_garmin.git
 ```
 
 ### Navigate to project folder
 ```bash
-`cd .\mywhoosh_to_garmin\`
+cd .\mywhoosh_to_garmin\
 ```
 
 ### Create virtual environment
 ```bash
-`python -m venv .venv`
+python -m venv .venv
 ```
 
 ### Activate virtual environment
 ```bash
-`.\.venv\Scripts\activate`
+.\.venv\Scripts\activate
 ```
 
 ### Install dependencies
 ```bash
-`pip install -r requirements.txt`
+pip install -r requirements.txt
 ```
 
 ### Configure environment variables
@@ -39,7 +39,7 @@ A script that automates synchronization of activites from MyWhoosh to Garmin Con
 
 ### Run the script
 ```bash
-`python main.py`
+python main.py
 ```
 
 
