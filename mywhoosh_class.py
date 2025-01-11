@@ -14,7 +14,8 @@ class MyWhooshSession:
         self.page = None
         self.email = os.getenv("MW_EMAIL")
         self.password = os.getenv("MW_PASSWORD")
-        self.download_path = os.getenv("FOLDER_PATH")
+        self.downloads_path = os.path.join(os.getcwd(), "activities")
+        os.makedirs(self.downloads_path, exist_ok=True)
         self.headless = True
 
     def __enter__(self):
@@ -101,7 +102,9 @@ class MyWhooshSession:
                     download_button = row.query_selector("button.btnDownload")
                     download_button.click()
                 download = download_info.value
-                download.save_as(f"{self.download_path}\\{download.suggested_filename}")
+                download.save_as(
+                    f"{self.downloads_path}\\{download.suggested_filename}"
+                )
                 activities_download_counter += 1
                 self.page.wait_for_timeout(2000)
         if activities_download_counter:

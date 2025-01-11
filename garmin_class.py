@@ -15,7 +15,6 @@ class GarminLoginSession:
 
         self.email = os.getenv("GC_EMAIL")
         self.password = os.getenv("GC_PASSWORD")
-        self.activities_file = os.getenv("FOLDER_PATH")
         self.headless = True
 
     def __enter__(self):
@@ -75,8 +74,9 @@ class GarminActionSession:
         self.browser = None
         self.context = None
         self.page = None
-        self.file_path = os.getenv("FOLDER_PATH")
-        self.download_path = os.path.join(self.file_path, "")
+        self.current_dir = os.getcwd()
+        self.downloads_path = os.path.join(os.getcwd(), "activities\\")
+        os.makedirs(self.downloads_path, exist_ok=True)
         self.headless = True
 
     def __enter__(self):
@@ -118,7 +118,7 @@ class GarminActionSession:
         print("Garmin cookies deleted.")
 
     def delete_files(self):
-        directory = self.file_path
+        directory = self.downloads_path
 
         for file in os.listdir(directory):
             file_path = os.path.join(directory, file)
@@ -135,14 +135,14 @@ class GarminActionSession:
             export_button.click()
         download = download_info.value
 
-        download.save_as(self.download_path + download.suggested_filename)
+        download.save_as(self.downloads_path + download.suggested_filename)
         self.page.wait_for_load_state()
         print("Activities List downloaded.")
 
     def upload_activities(self):
         upload_files = [
-            os.path.join(self.download_path, file)
-            for file in os.listdir(self.download_path)
+            os.path.join(self.downloads_path, file)
+            for file in os.listdir(self.downloads_path)
             if file.endswith(".fit")
         ]
         url = "https://connect.garmin.com/modern/import-data"
