@@ -37,6 +37,10 @@ pip install -r requirements.txt
   - GARMIN_EMAIL: Your Garmin Connect email
   - GARMIN_PASSWORD: Your Garmin Connect password
 
+### Security Notice
+Your credentials are stored locally in the `.env` file on your machine only. These credentials are used solely for authentication with MyWhoosh and Garmin Connect websites. The script does not transmit, store, or log your credentials anywhere else. As this is a client-side application, the repository owner and contributors have no access to your personal login information. We recommend reviewing the source code for transparency about credential handling.
+
+
 ### Run the script
 ```bash
 python main.py
