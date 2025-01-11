@@ -16,7 +16,7 @@ class GarminLoginSession:
         self.email = os.getenv("GC_EMAIL")
         self.password = os.getenv("GC_PASSWORD")
         self.activities_file = os.getenv("FOLDER_PATH")
-        self.headless = os.getenv("HEADLESS") == "true"
+        self.headless = True
 
     def __enter__(self):
         self.driver_options = driverless_webdriver.ChromeOptions()
@@ -36,6 +36,7 @@ class GarminLoginSession:
         self.driver.get(self.page, wait_load=True, timeout=60)
         self.driver.sleep(10)
         self.email_input = self.driver.find_element(by=By.ID, value="email", timeout=60)
+
         self.email_input.send_keys(self.email)
         self.driver.sleep(2)
         self.password_input = self.driver.find_element(
@@ -47,6 +48,7 @@ class GarminLoginSession:
             by=By.XPATH, value="//button[@data-testid='g__button']", timeout=60
         )
         self.driver.execute_script("arguments[0].click();", submit_button)
+        print("Logged into Garmin.")
         self.driver.sleep(5)
         self.accept_cookies()
         self.driver.sleep(2)
@@ -58,12 +60,13 @@ class GarminLoginSession:
             by=By.ID, value="truste-consent-button", timeout=60
         )
         cookies_accept_button.click()
+        print("Garmin cookies accepted.")
 
     def save_cookies(self):
         cookies = self.driver.get_cookies()
         with open("garmin_cookies.json", "w") as file:
             json.dump(cookies, file)
-        print("cookies saved")
+        print("Garmin cookies saved.")
 
 
 class GarminActionSession:
@@ -74,7 +77,7 @@ class GarminActionSession:
         self.page = None
         self.file_path = os.getenv("FOLDER_PATH")
         self.download_path = os.path.join(self.file_path, "")
-        self.headless = os.getenv("HEADLESS") == "true"
+        self.headless = True
 
     def __enter__(self):
         self.playwright = sync_playwright().start()
@@ -106,11 +109,13 @@ class GarminActionSession:
                 cookie.pop("sameSite", None)
                 playwright_cookies.append(cookie)
             self.context.add_cookies(playwright_cookies)
+        print("Garmin cookies loaded.")
 
     def delete_cookies(self):
         cookies_file = "garmin_cookies.json"
         if cookies_file:
             os.remove("garmin_cookies.json")
+        print("Garmin cookies deleted.")
 
     def delete_files(self):
         directory = self.file_path
@@ -118,6 +123,7 @@ class GarminActionSession:
         for file in os.listdir(directory):
             file_path = os.path.join(directory, file)
             os.remove(file_path)
+        print("Files deleted.")
 
     def download_activities_list(self):
         url = "https://connect.garmin.com/modern/activities?activityType=cycling&activitySubType=virtual_ride"
@@ -131,6 +137,7 @@ class GarminActionSession:
 
         download.save_as(self.download_path + download.suggested_filename)
         self.page.wait_for_load_state()
+        print("Activities List downloaded.")
 
     def upload_activities(self):
         upload_files = [
@@ -165,4 +172,5 @@ class GarminActionSession:
                 date = row[1].split()[0]
                 time = row[6]
                 activities_list.append(f"{date}, {time}")
+        print("Activities List processed")
         return activities_list
