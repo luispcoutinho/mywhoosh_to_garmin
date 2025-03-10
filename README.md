@@ -29,6 +29,11 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+```bash
+playwright install
+```
+
+
 ### Configure environment variables
 1. Rename `.env.example` to `.env`
 2. Open `.env` file and fill in your credentials:

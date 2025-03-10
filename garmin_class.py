@@ -131,7 +131,7 @@ class GarminActionSession:
         self.page.wait_for_load_state()
         self.page.wait_for_timeout(2000)
         with self.page.expect_download() as download_info:
-            export_button = self.page.locator(".export-btn")
+            export_button = self.page.locator('button[class*="exportBtn"]').nth(0)
             export_button.click()
         download = download_info.value
 
