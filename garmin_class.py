@@ -125,7 +125,7 @@ class GarminActionSession:
             os.remove(file_path)
         print("Files deleted.")
 
-    def git lf):
+    def download_activities_list(self):
         url = "https://connect.garmin.com/modern/activities?activityType=cycling&activitySubType=virtual_ride"
         self.page.goto(url, wait_until="load")
         self.page.wait_for_load_state()
