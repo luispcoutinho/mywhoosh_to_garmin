@@ -125,11 +125,24 @@ class GarminActionSession:
             os.remove(file_path)
         print("Files deleted.")
 
-    def download_activities_list(self):
+    def git lf):
         url = "https://connect.garmin.com/modern/activities?activityType=cycling&activitySubType=virtual_ride"
         self.page.goto(url, wait_until="load")
         self.page.wait_for_load_state()
         self.page.wait_for_timeout(2000)
+        scrollable_div = self.page.locator("#scrollableArea")
+        previous_height = 0
+        while True:
+            print("Dynamically loading full activities list.")
+            scrollable_div.evaluate(
+                "element => element.scrollBy(0, element.scrollHeight)"
+            )
+            self.page.wait_for_timeout(2000)
+            new_height = scrollable_div.evaluate("element => element.scrollHeight")
+            if new_height == previous_height:
+                break
+            previous_height = new_height
+
         with self.page.expect_download() as download_info:
             export_button = self.page.locator('button[class*="exportBtn"]').nth(0)
             export_button.click()
